@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Grok Database</title>
+  <link rel="stylesheet" href="style.css">
+
+  <!-- jQuery v1.9.1 -->
+  <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+  <!-- toastr v2.1.4 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.css" rel="stylesheet"  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/2.1.4/toastr.min.js"></script>
+
+</head>
+<body>
+ 
+<h1>聊天紀錄</h1>
+
+<div id="input_area" class="input-area">
+  <input id="input_title" placeholder="標題" autocomplete="off"><br><br>
+  <input id="input_category" placeholder="類別" autocomplete="off"><br><br>
+  <input id="input_summary" placeholder="摘要" autocomplete="off"><br><br>
+  <div id="btn_area">
+    <button id="add_note_btn">新增紀錄</button>
+    <button id="clear_btn">清空欄位</button>
+    <button id="backup_btn">備份資料</button>
+    <button id="restore_btn">還原資料</button>
+  </div>
+  <input type="file" id="restore_file" accept=".json">
+
+</div>
+
+<hr>
+
+<h2>聊天紀錄列表</h2>
+
+<div id="note_list"></div>
+
+<div id="overlay" class="overlay">
+
+  <div id="big_input_box" class="big-input-box">
+    <h4>大型輸入框</h4>
+    <textarea id="big_textarea" placeholder="輸入大量內容..." autocomplete="off"></textarea>
+    <div id="btn_area">
+      <button id="apply_big_text">送出內容</button>
+      <button id="clear_big_text">清空內容</button>
+      <button id="close_big_text">隱藏欄位</button>
+    </div>
+
+  </div>
+
+  <div id="detail_panel" class="panel">
+    <div class="panel-content">
+
+      <h2>詳細聊天紀錄</h2>
+
+      <label>標題</label>
+      <input id="detail_title" autocomplete="off"><br><br>
+      <label>類別</label>
+      <input id="detail_category" autocomplete="off"><br><br>
+      <label>摘要</label>
+      <input id="detail_summary" autocomplete="off"><br><br>
+
+      <button id="save_btn">儲存修改</button>
+      <button id="close_btn">關閉</button>
+
+
+
+    </div>
+
+    <hr>
+
+    <h3>聊天內容</h3>    
+
+    <div id="chat_list" class="chat-list"></div>
+      <div class="chat-input-area">
+        <textarea id="chat_input" placeholder="輸入訊息..." autocomplete="off"></textarea>
+        <button id="send_chat_btn">送出</button>
+        <button id="toggle_big_input">大型輸入</button>
+      </div>
+    </div>
+</div>
+
+<div id="chat_menu" class="chat-menu">
+  <div id="copy_btn">複製</div>
+  <div id="import_btn">導入</div>
+  <div id="delete_chat_btn">刪除</div>
+</div>
+
+<script type="module" src="script.js"></script>
+ 
+</body>
+</html>

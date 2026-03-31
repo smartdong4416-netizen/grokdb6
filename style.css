@@ -1,0 +1,252 @@
+body { 
+    background:#f5f7fb;
+    font-family:"Microsoft JhengHei",sans-serif;
+}
+
+input {
+  width: 500px;
+  padding: 12px 16px;
+  margin: 0px 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+ 
+button {
+  background: #2575fc;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 20px;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+#btn_area{
+  width: 500px;
+  display: flex;
+  justify-content: space-evenly;
+
+  padding: 0px 16px 12px 16px;
+  margin: 0px 10px;
+  border: 2px solid transparent;
+
+}
+
+.note {
+  position: relative;
+  width: 500px;
+  padding: 10px 16px;
+  margin: 10px;
+  border: 2px solid #ddd;
+  border-radius: 16px;
+  background: #fff;
+  cursor: pointer;
+
+  white-space: pre-line;
+  word-break: break-word;     /* 防止數字爆出欄位 */
+  overflow-wrap: break-word;  
+}
+
+/* 詳細聊天紀錄 */
+.panel {
+  position: fixed; /* 固定在右半邊 */
+  top: 0;
+  right: -800px; /* 預設藏起來 */
+  width: 600px; /* 600px */
+  height: 100%;
+  background: #fff;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.1); /* 陰影 */
+  padding: 10px;
+  transition: right 0.5s ease;
+  z-index: 1000;
+}
+
+.panel.open { /* 有 open 類別的 panel */
+  right:  0; /* 滑出來 */
+}
+
+.panel-content {
+  height: 300px;
+}
+
+/* 聊天室 */
+.chat-list {
+  height: 200px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin-bottom: 10px;
+  background: #fafafa;
+  border-radius: 10px;
+}
+
+.chat-message {
+  padding: 4px 12px; /* 4px 防止第4行頂部被看到 */
+  margin: 6px 0;
+  background: rgba(128, 128, 128, 0.5);
+  color: black;
+  border-radius: 10px;
+
+  max-width: 80%;           /* ⭐ 最長不超過 80% */
+  width: fit-content;       /* ⭐ 關鍵：貼內容寬度 */
+
+  word-break: break-word;
+
+  white-space: pre-wrap;   /* 維持原本文字 不縮排 */
+
+  /* ⭐ 新增 ↓ */
+  display: -webkit-box;
+  -webkit-line-clamp: 3;      /* 限制3行 */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+   
+
+}
+
+.chat-message.expanded {
+  -webkit-line-clamp: unset; /* 展開全部 */
+}
+
+
+.chat-input-area {
+  display: flex;
+  gap: 10px;
+}
+
+.chat-input-area input {
+  flex: 1;
+}
+
+
+/* 刪除按鈕 */
+.delete-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+
+  width: 30px;
+  height: 30px;
+
+  background: #ff4d4f; /* 紅色 */
+  color: white;
+
+  border: none;
+  border-radius: 25%;
+
+  font-size: 16px;
+  font-weight: bold;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+/* hover 效果 */
+.delete-btn:hover {
+  background: #d9363e;
+  transform: scale(1.1);
+}
+
+/* 點擊效果 */
+.delete-btn:active {
+  transform: scale(0.95);
+}
+
+
+/* 遮罩 */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5); /* 半透明背景 */
+  display: none;
+}
+
+.overlay.open {
+  display: block;
+}
+
+/* 聊天輸入框 */
+#chat_input {
+  flex: 1;
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+
+  resize: none;
+
+  min-height: 60px;
+  max-height: 60px;   /* 限制最大高度 */
+  overflow-y: auto;    /* 超出出現滾輪 */
+}
+
+/* 操作小方框 */
+.chat-menu {
+  position: absolute;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  padding: 5px 0;
+
+  display: none;
+  z-index: 2000;
+}
+
+.chat-menu div {
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.chat-menu div:hover {
+  background: #f0f0f0;
+}
+
+.chat-input-area button{
+  height: 75px;
+  width: 75px;
+} 
+
+/* 大型輸入框 */
+.big-input-box {
+  position: fixed;
+  top: 0;
+  right: 600px; /* 剛好貼在 panel 左邊 */
+  width: 600px; /* 600px */
+  height: 100%;
+  background: #fff;
+
+  box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+  padding: 10px;
+
+  transform: translateX(100%); /* 預設藏起來 */
+  transition: transform 0.4s ease;
+
+  z-index: 999;
+}
+
+.big-input-box.open {
+  transform: translateX(0); /* 滑出來 */
+}
+
+#big_textarea {
+  width: 90%;
+  height: 70%;
+  resize: none;
+  border: 2px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+#restore_file{
+  display: none;
+}
