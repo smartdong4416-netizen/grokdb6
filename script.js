@@ -17,13 +17,14 @@ import { Timestamp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-fi
  
  
 // Firebase 設定
+// grokdb6
 const firebaseConfig = {
-  apiKey: "AIzaSyC7Zu0-CoPsUczRDK_7I4uHGVlA4j6ihT0",
-  authDomain: "grokdb5.firebaseapp.com",
-  projectId: "grokdb5",
-  storageBucket: "grokdb5.firebasestorage.app",
-  messagingSenderId: "810950683103",
-  appId: "1:810950683103:web:fdd54a05587e9b5d61fc6a"
+apiKey: "AIzaSyBGqyY31hS4aqXqsVKn8xK4IUn-RXgdTTs",
+  authDomain: "grokdb6-810ad.firebaseapp.com",
+  projectId: "grokdb6-810ad",
+  storageBucket: "grokdb6-810ad.firebasestorage.app",
+  messagingSenderId: "631240916523",
+  appId: "1:631240916523:web:544fed6ace96cca371346e"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -54,11 +55,13 @@ document.getElementById("add_note_btn").addEventListener("click", async () => {
     const category = document.getElementById("input_category").value.trim();
     const summary = document.getElementById("input_summary").value.trim();
 
+    /*
     if (!title || !category || !summary) {
         alert("請輸入完整資料");
         add_note_btn.disabled = false; // 解鎖
         return;
     }
+    */
 
     try {
         await addDoc(collection(db, "notes"), {
@@ -317,10 +320,12 @@ document.getElementById("save_btn").addEventListener("click", async () => {
     const newCategory = document.getElementById("detail_category").value.trim();
     const newSummary = document.getElementById("detail_summary").value.trim();
 
+    /*
     if (!newTitle || !newCategory || !newSummary) {
         alert("請填完整資料");
         return;
     }
+    */
 
     try {
         await updateDoc(doc(db, "notes", id), {
@@ -474,6 +479,8 @@ function closePanel() {
         unsubscribeChat();
         unsubscribeChat = null;
     }
+
+    editingChatRef = null;
 }
 
 // 自動調整高度
@@ -548,6 +555,7 @@ document.getElementById("apply_big_text").addEventListener("click", () => {
     chatInput.dispatchEvent(new Event("input"));
 });
 */
+/*
 document.getElementById("apply_big_text").addEventListener("click", async () => {
 
     const bigText = document.getElementById("big_textarea").value.trim();
@@ -583,6 +591,50 @@ document.getElementById("apply_big_text").addEventListener("click", async () => 
         toastr.error("送出失敗");
     }
 });
+*/
+document.getElementById("apply_big_text").addEventListener("click", async () => {
+
+    const bigText = document.getElementById("big_textarea").value.trim();
+    if (!bigText) return;
+
+    const panel = document.getElementById("detail_panel");
+    const noteId = panel.dataset.id;
+
+    if (!noteId) return;
+
+    try {
+
+        if (editingChatRef) {
+            // ⭐ 修改模式
+            await updateDoc(editingChatRef, {
+                text: bigText
+            });
+
+            toastr.success("修改成功！");
+            editingChatRef = null;
+
+        } else {
+            // ⭐ 新增模式
+            await addDoc(collection(db, "notes", noteId, "chats"), {
+                text: bigText,
+                createdAt: serverTimestamp()
+            });
+
+            await updateDoc(doc(db, "notes", noteId), {
+                updatedAt: serverTimestamp()
+            });
+
+            toastr.success("已送出！");
+        }
+
+        document.getElementById("big_textarea").value = "";
+
+    } catch (error) {
+        console.error("操作失敗:", error);
+        toastr.error("失敗");
+    }
+});
+
 
 // 關閉大型輸入框
 document.getElementById("close_big_text").addEventListener("click", () => {
@@ -743,3 +795,25 @@ function convertTimestamp(ts) {
 
     return serverTimestamp();
 }
+
+
+
+// 修改聊天
+let editingChatRef = null; // ⭐ 正在編輯的 chat
+
+document.getElementById("edit_btn").addEventListener("click", () => {
+    if (!currentChatRef) return;
+
+    const bigTextarea = document.getElementById("big_textarea");
+
+    // 塞內容
+    bigTextarea.value = currentChatText;
+
+    // 記住這筆
+    editingChatRef = currentChatRef;
+
+    // 打開大型輸入框
+    document.getElementById("big_input_box").classList.add("open");
+
+    closeMenu();
+});
